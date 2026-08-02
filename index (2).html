@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luigi's Pizzeria — Echtes Neapolitanisches Handwerk</title>
+<meta name="description" content="Luigi's Pizzeria München — neapolitanische Pizza aus dem Steinofen, 48 Stunden gereifter Teig, Zutaten aus Kampanien.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ============ DESIGN TOKENS ============ */
+  :root{
+    --terracotta: #b8502f;
+    --terracotta-dark: #8f3c22;
+    --dough: #f3e6d2;
+    --dough-light: #faf3e6;
+    --olive: #6f7a4e;
+    --olive-dark: #4d5636;
+    --ink: #2a2019;
+    --ink-soft: #55483d;
+    --gold: #d3a04c;
+    --card-shadow: 0 10px 30px rgba(42,32,25,0.10);
+    --radius-lg: 28px;
+    --radius-md: 18px;
+    --serif: "Fraunces", Georgia, serif;
+    --sans: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  *{ box-sizing: border-box; }
+  html{ scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce){
+    html{ scroll-behavior: auto; }
+    *{ animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  body{
+    margin:0;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--dough-light);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,h2,h3,h4{
+    font-family: var(--serif);
+    margin: 0 0 0.4em 0;
+    color: var(--ink);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  a{ color: inherit; }
+  img{ max-width: 100%; display:block; }
+  button{ font-family: inherit; cursor: pointer; }
+
+  .container{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
+
+  .eyebrow{
+    display:inline-block;
+    font-family: var(--sans);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--terracotta);
+    margin-bottom: 14px;
+  }
+
+  :focus-visible{
+    outline: 3px solid var(--gold);
+    outline-offset: 3px;
+  }
+
+  /* ============ HEADER ============ */
+  header{
+    position: fixed;
+    top:0; left:0; right:0;
+    z-index: 100;
+    background: rgba(250, 243, 230, 0.86);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(42,32,25,0.08);
+  }
+  .nav-wrap{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    padding: 16px 28px;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+  .logo{
+    font-family: var(--serif);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--terracotta-dark);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+  }
+  .logo .mark{
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 30% 30%, #e8c86a 0 8%, transparent 9%),
+      radial-gradient(circle at 65% 55%, #e8c86a 0 8%, transparent 9%),
+      radial-gradient(circle at 45% 75%, #e8c86a 0 7%, transparent 8%),
+      radial-gradient(circle at 70% 25%, #7a8a54 0 6%, transparent 7%),
+      radial-gradient(circle at center, #d9622f 55%, #b8502f 100%);
+    box-shadow: inset 0 0 0 3px var(--dough-light);
+    flex-shrink:0;
+  }
+  nav ul{
+    list-style:none;
+    display:flex;
+    gap: 30px;
+    margin:0; padding:0;
+  }
+  nav a{
+    text-decoration:none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    transition: color 0.2s ease;
+  }
+  nav a:hover{ color: var(--terracotta); }
+  .nav-links{ display:flex; align-items:center; gap: 34px; }
+
+  .cart-btn{
+    position: relative;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background: var(--ink);
+    color: var(--dough-light);
+    border:none;
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+  .cart-btn:hover{ background: var(--terracotta-dark); transform: translateY(-1px); }
+  .cart-count{
+    background: var(--terracotta);
+    color: #fff;
+    border-radius: 999px;
+    min-width: 20px;
+    height:20px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 0 5px;
+  }
+  .burger{ display:none; background:none; border:none; padding:6px; }
+  .burger span{ display:block; width:24px; height:2px; background: var(--ink); margin:5px 0; border-radius: 2px; }
+
+  /* ============ HERO ============ */
+  .hero{
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    position: relative;
+    overflow: hidden;
+    background:
+      radial-gradient(ellipse 80% 60% at 80% 20%, rgba(211,160,76,0.25), transparent 60%),
+      radial-gradient(ellipse 70% 60% at 10% 90%, rgba(111,122,78,0.20), transparent 60%),
+      linear-gradient(160deg, #241a12 0%, #3a2415 42%, var(--terracotta-dark) 100%);
+    color: var(--dough-light);
+  }
+  .hero::before{
+    /* glowing oven ember texture */
+    content:"";
+    position:absolute;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 85% 75%, rgba(255,140,66,0.35), transparent 40%),
+      radial-gradient(circle at 88% 82%, rgba(255,90,30,0.4), transparent 30%);
+    filter: blur(4px);
+    animation: flicker 5s ease-in-out infinite alternate;
+    pointer-events:none;
+  }
+  @keyframes flicker{
+    0%{ opacity: 0.75; }
+    50%{ opacity: 1; }
+    100%{ opacity: 0.85; }
+  }
+  .hero-content{
+    position:relative;
+    z-index: 2;
+    max-width: 640px;
+    padding-top: 90px;
+  }
+  .hero .eyebrow{ color: var(--gold); }
+  .hero h1{
+    font-size: clamp(2.6rem, 6vw, 4.4rem);
+    line-height: 1.04;
+    color: #fbf0dd;
+  }
+  .hero h1 em{
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero p{
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: rgba(251,240,221,0.82);
+    max-width: 480px;
+    margin-bottom: 34px;
+  }
+  .btn-primary{
+    display:inline-flex;
+    align-items:center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--terracotta), #d3652f);
+    color: #fff;
+    border: none;
+    padding: 16px 30px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 14px 30px rgba(184,80,47,0.35);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-primary:hover{ transform: translateY(-3px); box-shadow: 0 18px 34px rgba(184,80,47,0.45); }
+  .btn-primary svg{ transition: transform 0.25s ease; }
+  .btn-primary:hover svg{ transform: translateX(4px); }
+
+  .hero-scroll-hint{
+    position:absolute;
+    bottom: 34px;
+    left: 28px;
+    z-index:2;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color: rgba(251,240,221,0.6);
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight:600;
+  }
+  .hero-scroll-hint .line{
+    width: 34px; height:1px; background: rgba(251,240,221,0.5);
+  }
+
+  /* pizza dough moon graphic on the right */
+  .hero-pizza{
+    position:absolute;
+    right: -6%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 620px; height:620px;
+    border-radius:50%;
+    z-index:1;
+    background:
+      radial-gradient(circle at 38% 35%, #e8c96f 0 3%, transparent 3.4%),
+      radial-gradient(circle at 60% 55%, #e8c96f 0 3%, transparent 3.4%),
+      radial-gradient(circle at 30% 65%, #e8c96f 0 2.6%, transparent 3%),
+      radial-gradient(circle at 70% 30%, #86974f 0 2.2%, transparent 2.6%),
+      radial-gradient(circle at 50% 70%, #86974f 0 2.4%, transparent 2.8%),
+      radial-gradient(circle at 75% 65%, #e8c96f 0 2.8%, transparent 3.2%),
+      radial-gradient(circle at center, #d9622f 0 62%, #b8502f 63% 100%);
+    box-shadow:
+      0 0 0 14px rgba(243,230,210,0.06),
+      0 40px 100px rgba(0,0,0,0.4);
+    opacity: 0.9;
+  }
+  @media (max-width: 900px){
+    .hero-pizza{ width: 420px; height:420px; right:-18%; opacity: 0.55; }
+  }
+  @media (max-width: 640px){
+    .hero-pizza{ display:none; }
+  }
+
+  section{ padding: 110px 0; }
+  .section-head{ max-width: 620px; margin-bottom: 56px; }
+  .section-head p{ color: var(--ink-soft); font-size: 1.05rem; line-height: 1.6; }
+
+  /* ============ MENU ============ */
+  .menu{ background: var(--dough-light); }
+  .menu-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 980px){ .menu-grid{ grid-template-columns: repeat(2,1fr); } }
+  @media (max-width: 640px){ .menu-grid{ grid-template-columns: 1fr; } }
+
+  .card{
+    background: #fff;
+    border-radius: var(--radius-md);
+    overflow:hidden;
+    box-shadow: var(--card-shadow);
+    display:flex;
+    flex-direction:column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .card:hover{ transform: translateY(-6px); box-shadow: 0 20px 40px rgba(42,32,25,0.16); }
+
+  .card-visual{
+    height: 170px;
+    position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .card-visual .pizza-round{
+    width: 118px; height:118px;
+    border-radius:50%;
+    box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+  }
+  .p-margherita .pizza-round{
+    background:
+      radial-gradient(circle at 32% 30%, #d84f37 0 9%, transparent 10%),
+      radial-gradient(circle at 62% 55%, #d84f37 0 8%, transparent 9%),
+      radial-gradient(circle at 45% 72%, #7a8a54 0 6%, transparent 7%),
+      radial-gradient(circle at 70% 30%, #7a8a54 0 5%, transparent 6%),
+      radial-gradient(circle at center, #f6dfa0 0 68%, #e0ab48 69% 100%);
+  }
+  .p-piccante .pizza-round{
+    background:
+      radial-gradient(circle at 30% 30%, #971f1f 0 9%, transparent 10%),
+      radial-gradient(circle at 62% 40%, #971f1f 0 8%, transparent 9%),
+      radial-gradient(circle at 40% 68%, #971f1f 0 8%, transparent 9%),
+      radial-gradient(circle at 72% 65%, #971f1f 0 7%, transparent 8%),
+      radial-gradient(circle at center, #f2c86a 0 68%, #d69935 69% 100%);
+  }
+  .p-truffle .pizza-round{
+    background:
+      radial-gradient(circle at 35% 35%, #4d5636 0 7%, transparent 8%),
+      radial-gradient(circle at 60% 60%, #4d5636 0 6%, transparent 7%),
+      radial-gradient(circle at 50% 25%, #efe7d6 0 8%, transparent 9%),
+      radial-gradient(circle at center, #efe0b8 0 68%, #cfa855 69% 100%);
+  }
+  .p-quattro .pizza-round{
+    background:
+      radial-gradient(circle at 30% 30%, #efe7d6 0 12%, transparent 13%),
+      radial-gradient(circle at 70% 30%, #e0ab48 0 12%, transparent 13%),
+      radial-gradient(circle at 30% 70%, #d3a04c 0 12%, transparent 13%),
+      radial-gradient(circle at 70% 70%, #f6dfa0 0 12%, transparent 13%),
+      radial-gradient(circle at center, #f2e3ba 0 68%, #d9a648 69% 100%);
+  }
+  .p-burrata .pizza-round{
+    background:
+      radial-gradient(circle at 50% 45%, #fdfaf2 0 22%, transparent 23%),
+      radial-gradient(circle at 30% 65%, #7a8a54 0 5%, transparent 6%),
+      radial-gradient(circle at 68% 30%, #7a8a54 0 4%, transparent 5%),
+      radial-gradient(circle at center, #e9c67e 0 68%, #cf9d3f 69% 100%);
+  }
+  .p-tiramisu .pizza-round{
+    border-radius: 12px;
+    background:
+      repeating-linear-gradient(0deg, #6b4a30 0 6px, #7c5a3c 6px 12px),
+      linear-gradient(#8a6444,#8a6444);
+    background-blend-mode: overlay;
+    position:relative;
+  }
+  .p-tiramisu .pizza-round::after{
+    content:"";
+    position:absolute; inset:0;
+    background: linear-gradient(180deg, rgba(255,255,255,0.35), transparent 40%);
+  }
+
+  .card-body{
+    padding: 22px 24px 26px;
+    display:flex;
+    flex-direction:column;
+    flex:1;
+  }
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  .card-top h3{ font-size: 1.18rem; margin:0; }
+  .price{
+    font-family: var(--serif);
+    font-weight: 600;
+    color: var(--terracotta-dark);
+    font-size: 1.15rem;
+    white-space: nowrap;
+  }
+  .card-body p.desc{
+    color: var(--ink-soft);
+    font-size: 0.92rem;
+    line-height: 1.55;
+    flex:1;
+    margin: 0 0 18px 0;
+  }
+  .add-btn{
+    background: transparent;
+    border: 2px solid var(--ink);
+    color: var(--ink);
+    padding: 10px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    transition: all 0.2s ease;
+  }
+  .add-btn:hover{ background: var(--ink); color: #fff; }
+  .add-btn.added{
+    background: var(--olive);
+    border-color: var(--olive);
+    color: #fff;
+  }
+
+  /* ============ BENTO ============ */
+  .bento-section{
+    background: var(--ink);
+    color: var(--dough-light);
+  }
+  .bento-section .section-head p{ color: rgba(250,243,230,0.65); }
+  .bento-section .eyebrow{ color: var(--gold); }
+  .bento-section h2{ color: var(--dough-light); }
+
+  .bento-grid{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 180px 180px;
+    gap: 20px;
+  }
+  .bento-tile{
+    position:relative;
+    border-radius: var(--radius-md);
+    overflow:hidden;
+    display:flex;
+    align-items:flex-end;
+    padding: 22px;
+    isolation: isolate;
+  }
+  .bento-tile .tag{
+    font-family: var(--sans);
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.35);
+  }
+  .bento-tile .sub{
+    display:block;
+    font-weight: 500;
+    font-size: 0.72rem;
+    color: rgba(255,255,255,0.75);
+    margin-top: 3px;
+  }
+
+  .bento-1{
+    grid-column: span 2; grid-row: span 2;
+    background:
+      radial-gradient(ellipse at 30% 20%, rgba(255,178,90,0.9), transparent 45%),
+      radial-gradient(ellipse at 75% 75%, rgba(217,98,47,0.95), transparent 55%),
+      linear-gradient(150deg, #3a1c10, #b8502f 80%);
+  }
+  .bento-2{
+    grid-column: span 2;
+    background:
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.06) 0 2px, transparent 2px 14px),
+      linear-gradient(135deg, #efe0b8, #d3a04c 60%, #b8823a);
+  }
+  .bento-2 .tag, .bento-2 .sub{ color: #3a2b12; text-shadow:none; }
+  .bento-3{
+    background:
+      radial-gradient(circle at 30% 70%, rgba(122,138,84,0.9), transparent 60%),
+      linear-gradient(160deg, #4d5636, #2f3623);
+  }
+  .bento-4{
+    background:
+      repeating-radial-gradient(circle at 50% 50%, rgba(255,255,255,0.05) 0 2px, transparent 2px 16px),
+      linear-gradient(200deg, #1b1410, #4a2f1c);
+  }
+  .bento-5{
+    grid-column: span 2;
+    background:
+      linear-gradient(120deg, rgba(184,80,47,0.9), rgba(111,122,78,0.85)),
+      linear-gradient(200deg,#2a2019,#55483d);
+  }
+
+  @media (max-width: 860px){
+    .bento-grid{ grid-template-columns: repeat(2,1fr); grid-template-rows: repeat(3, 170px); }
+    .bento-1{ grid-column: span 2; grid-row: span 1; }
+    .bento-5{ grid-column: span 2; }
+  }
+  @media (max-width: 540px){
+    .bento-grid{ grid-template-columns: 1fr; grid-template-rows: none; }
+    .bento-1, .bento-2, .bento-5{ grid-column: span 1; }
+    .bento-tile{ height: 150px; }
+  }
+
+  /* ============ ABOUT STRIP ============ */
+  .strip{
+    background: var(--dough);
+    padding: 60px 0;
+  }
+  .strip-grid{
+    display:grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 30px;
+    text-align:center;
+  }
+  .strip-grid div h4{ font-size: 2rem; margin-bottom: 4px; color: var(--terracotta-dark); }
+  .strip-grid div span{ color: var(--ink-soft); font-size: 0.85rem; text-transform:uppercase; letter-spacing: 0.06em; font-weight:600; }
+  @media (max-width: 640px){ .strip-grid{ grid-template-columns: 1fr; gap: 26px; } }
+
+  /* ============ FOOTER ============ */
+  footer{
+    background: #1c150f;
+    color: rgba(250,243,230,0.82);
+    padding: 80px 0 30px;
+  }
+  .footer-grid{
+    display:grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 50px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid rgba(250,243,230,0.12);
+  }
+  @media (max-width: 780px){ .footer-grid{ grid-template-columns: 1fr; gap: 36px; } }
+
+  footer h4{
+    color: #fbf0dd;
+    font-size: 1.05rem;
+    margin-bottom: 16px;
+  }
+  .footer-logo{
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    color: #fbf0dd;
+    margin-bottom: 14px;
+  }
+  footer p, footer address{
+    font-style:normal;
+    line-height: 1.7;
+    font-size: 0.92rem;
+    color: rgba(250,243,230,0.65);
+    margin: 0 0 6px 0;
+  }
+  .hours-box{
+    background: rgba(250,243,230,0.06);
+    border-radius: var(--radius-md);
+    padding: 20px 22px;
+  }
+  .hours-row{
+    display:flex;
+    justify-content: space-between;
+    padding: 7px 0;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed rgba(250,243,230,0.12);
+  }
+  .hours-row:last-child{ border-bottom:none; }
+  .hours-row span:first-child{ color: rgba(250,243,230,0.55); }
+  .hours-row span:last-child{ font-weight:700; color:#fbf0dd; }
+
+  .footer-bottom{
+    display:flex;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap: 10px;
+    padding-top: 26px;
+    font-size: 0.8rem;
+    color: rgba(250,243,230,0.45);
+  }
+  .footer-bottom a{ color: rgba(250,243,230,0.6); text-decoration:none; }
+  .footer-bottom a:hover{ color: var(--gold); }
+
+  /* ============ CART DRAWER ============ */
+  .overlay{
+    position: fixed; inset:0;
+    background: rgba(20,14,10,0.55);
+    backdrop-filter: blur(2px);
+    z-index: 200;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.3s ease;
+  }
+  .overlay.open{ opacity:1; pointer-events:auto; }
+
+  .cart-drawer{
+    position: fixed;
+    top:0; right:0;
+    height: 100vh;
+    width: min(420px, 92vw);
+    background: var(--dough-light);
+    z-index: 201;
+    display:flex;
+    flex-direction:column;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(.4,0,.2,1);
+    box-shadow: -20px 0 50px rgba(0,0,0,0.25);
+  }
+  .cart-drawer.open{ transform: translateX(0); }
+
+  .cart-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding: 24px 26px;
+    border-bottom: 1px solid rgba(42,32,25,0.1);
+  }
+  .cart-header h3{ margin:0; font-size: 1.3rem; }
+  .close-btn{
+    background: none; border:none;
+    font-size: 1.4rem;
+    line-height:1;
+    color: var(--ink-soft);
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  .close-btn:hover{ background: rgba(42,32,25,0.08); }
+
+  .cart-items{
+    flex:1;
+    overflow-y:auto;
+    padding: 10px 26px;
+  }
+  .cart-empty{
+    text-align:center;
+    padding: 60px 20px;
+    color: var(--ink-soft);
+  }
+  .cart-item{
+    display:flex;
+    gap: 14px;
+    align-items:center;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(42,32,25,0.08);
+  }
+  .cart-item .mini-round{
+    width: 52px; height:52px; border-radius:50%;
+    flex-shrink:0;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  }
+  .cart-item-info{ flex:1; min-width:0; }
+  .cart-item-info h5{ margin:0 0 4px 0; font-size: 0.95rem; font-family: var(--sans); font-weight:700; }
+  .cart-item-info .unit-price{ font-size: 0.8rem; color: var(--ink-soft); }
+  .qty-controls{
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+  .qty-controls button{
+    width: 26px; height:26px;
+    border-radius:50%;
+    border: 1px solid rgba(42,32,25,0.2);
+    background:#fff;
+    font-weight:700;
+    display:flex; align-items:center; justify-content:center;
+    font-size: 0.9rem;
+    color: var(--ink);
+  }
+  .qty-controls button:hover{ background: var(--ink); color:#fff; border-color: var(--ink); }
+  .qty-controls .qty-num{ min-width: 18px; text-align:center; font-weight:700; font-size:0.9rem; }
+  .line-total{
+    font-weight: 700;
+    font-size: 0.92rem;
+    color: var(--terracotta-dark);
+    min-width: 60px;
+    text-align:right;
+  }
+
+  .cart-footer{
+    padding: 22px 26px 28px;
+    border-top: 1px solid rgba(42,32,25,0.1);
+  }
+  .cart-total-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    margin-bottom: 18px;
+  }
+  .cart-total-row span:first-child{ font-weight:600; color: var(--ink-soft); }
+  .cart-total-row span:last-child{ font-family: var(--serif); font-size: 1.5rem; font-weight:700; color: var(--terracotta-dark); }
+  .checkout-btn{
+    width:100%;
+    background: var(--terracotta);
+    color:#fff;
+    border:none;
+    padding: 15px;
+    border-radius: 999px;
+    font-weight:700;
+    font-size: 1rem;
+  }
+  .checkout-btn:hover{ background: var(--terracotta-dark); }
+  .cart-note{
+    text-align:center;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+  }
+
+  /* mobile nav */
+  @media (max-width: 780px){
+    .nav-links{
+      position:fixed;
+      top: 68px; left:0; right:0;
+      background: var(--dough-light);
+      flex-direction:column;
+      align-items:flex-start;
+      padding: 20px 28px 26px;
+      gap: 18px;
+      border-bottom: 1px solid rgba(42,32,25,0.1);
+      transform: translateY(-130%);
+      transition: transform 0.3s ease;
+      z-index: 99;
+    }
+    .nav-links.open{ transform: translateY(0); }
+    nav ul{ flex-direction:column; gap: 14px; width:100%; }
+    .burger{ display:block; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-wrap">
+    <a href="#top" class="logo"><span class="mark" aria-hidden="true"></span>Luigi's Pizzeria</a>
+    <div class="nav-links" id="navLinks">
+      <nav>
+        <ul>
+          <li><a href="#speisekarte">Speisekarte</a></li>
+          <li><a href="#atmosphaere">Atmosphäre</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+      <button class="cart-btn" id="cartToggle" aria-label="Warenkorb öffnen">
+        🛒 Warenkorb <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+    <button class="burger" id="burgerBtn" aria-label="Menü öffnen" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-pizza" aria-hidden="true"></div>
+    <div class="container">
+      <div class="hero-content">
+        <span class="eyebrow">Seit 1994 · München</span>
+        <h1>Echtes neapolitanisches Handwerk, <em>direkt aus dem Steinofen.</em></h1>
+        <p>48 Stunden gereifter Teig, San-Marzano-Tomaten und ein Holzofen, der seit über zwanzig Jahren nicht kalt geworden ist. Willkommen bei Luigi's.</p>
+        <a href="#speisekarte" class="btn-primary">
+          Zur Speisekarte
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="hero-scroll-hint"><span class="line"></span> Scroll für mehr</div>
+  </section>
+
+  <!-- MENU -->
+  <section class="menu" id="speisekarte">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Die Speisekarte</span>
+        <h2>Von Hand geformt, im Feuer vollendet</h2>
+        <p>Jede Pizza wird bei über 450 °C in weniger als 90 Sekunden gebacken — knuspriger Rand, weicher Kern, wie in Neapel.</p>
+      </div>
+
+      <div class="menu-grid" id="menuGrid"></div>
+    </div>
+  </section>
+
+  <!-- BENTO / COLLAGE -->
+  <section class="bento-section" id="atmosphaere">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Unser Handwerk</span>
+        <h2>Was eine gute Pizza wirklich ausmacht</h2>
+        <p>Kein Zufall, sondern Zeit, Temperatur und Herkunft — das ist unser Rezept.</p>
+      </div>
+
+      <div class="bento-grid">
+        <div class="bento-tile bento-1">
+          <div><span class="tag">Holzofen-Aroma</span><span class="sub">450°C · 90 Sekunden Backzeit</span></div>
+        </div>
+        <div class="bento-tile bento-2">
+          <div><span class="tag">48h Teigreife</span><span class="sub">Langsame Fermentation, leichte Verdaulichkeit</span></div>
+        </div>
+        <div class="bento-tile bento-3">
+          <div><span class="tag">Aus Kampanien</span><span class="sub">San-Marzano-Tomaten & Büffelmozzarella</span></div>
+        </div>
+        <div class="bento-tile bento-4">
+          <div><span class="tag">Handgeformt</span><span class="sub">Kein Nudelholz, nur geübte Hände</span></div>
+        </div>
+        <div class="bento-tile bento-5">
+          <div><span class="tag">Piazza Pasta 1, München</span><span class="sub">Seit 1994 in Familienhand</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STRIP -->
+  <section class="strip">
+    <div class="container">
+      <div class="strip-grid">
+        <div><h4>450°C</h4><span>Ofentemperatur</span></div>
+        <div><h4>48 Std.</h4><span>Teigreife</span></div>
+        <div><h4>90 Sek.</h4><span>Backzeit</span></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- FOOTER -->
+<footer id="kontakt">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Luigi's Pizzeria</div>
+        <p>Neapolitanische Pizza aus dem Steinofen — traditionell gebacken, mit Zutaten aus Kampanien.</p>
+        <address style="margin-top:16px;">
+          <p><strong style="color:#fbf0dd;">Luigi's Pizzeria</strong></p>
+          <p>Piazza Pasta 1<br>80331 München</p>
+          <p>Inhaber: Luigi Rossi</p>
+        </address>
+      </div>
+
+      <div>
+        <h4>Öffnungszeiten</h4>
+        <div class="hours-box">
+          <div class="hours-row"><span>Montag</span><span>Ruhetag</span></div>
+          <div class="hours-row"><span>Di – So</span><span>17:00 – 22:00</span></div>
+          <div class="hours-row"><span>Küche bis</span><span>21:30</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h4>Kontakt</h4>
+        <p>Telefon: 089 123 456 78</p>
+        <p>E-Mail: ciao@luigis-pizzeria.de</p>
+        <p style="margin-top:16px;">Reservierungen werden telefonisch<br>oder per E-Mail entgegengenommen.</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>© 2026 Luigi's Pizzeria. Alle Rechte vorbehalten.</span>
+      <span>Design & Umsetzung: Finn Gawinski – Gawinski Web Solution, Musterweg 2, 12345 Musterstadt</span>
+    </div>
+  </div>
+</footer>
+
+<!-- CART -->
+<div class="overlay" id="overlay"></div>
+<aside class="cart-drawer" id="cartDrawer" aria-label="Warenkorb">
+  <div class="cart-header">
+    <h3>Dein Warenkorb</h3>
+    <button class="close-btn" id="closeCart" aria-label="Warenkorb schließen">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems">
+    <div class="cart-empty" id="cartEmpty">
+      <p>Dein Warenkorb ist noch leer.</p>
+      <p style="font-size:0.85rem;">Wähle etwas Köstliches von der Speisekarte 🍕</p>
+    </div>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-total-row">
+      <span>Gesamtsumme</span>
+      <span id="cartTotal">0,00 €</span>
+    </div>
+    <button class="checkout-btn" id="checkoutBtn">Zur Kasse</button>
+    <p class="cart-note">Dies ist eine Demo — es erfolgt keine echte Bestellung.</p>
+  </div>
+</aside>
+
+<script>
+(function(){
+  "use strict";
+
+  const products = [
+    { id:"margherita", name:"Pizza Margherita DOC", price:12.50, desc:"San-Marzano-Tomaten, Fior di Latte, frisches Basilikum und ein Schuss natives Olivenöl.", visual:"p-margherita" },
+    { id:"piccante", name:"Pizza Salami Piccante", price:14.00, desc:"Scharfe Salami, Chiliöl, rote Zwiebeln und geräucherter Mozzarella auf würziger Tomatensauce.", visual:"p-piccante" },
+    { id:"truffle", name:"Pizza Truffle & Funghi", price:16.50, desc:"Cremiger Trüffel, gebratene Steinpilze, Fontina-Käse und ein Hauch Rosmarin.", visual:"p-truffle" },
+    { id:"quattro", name:"Pizza Quattro Formaggi", price:15.00, desc:"Gorgonzola, Fontina, Parmesan und Mozzarella — vier Käsesorten, ein perfektes Gleichgewicht.", visual:"p-quattro" },
+    { id:"burrata", name:"Pizza Burrata e Prosciutto", price:17.00, desc:"Luftgetrockneter Prosciutto Crudo, cremige Burrata und Rucola, erst nach dem Backen aufgelegt.", visual:"p-burrata" },
+    { id:"tiramisu", name:"Homemade Tiramisu", price:6.50, desc:"Hausgemacht nach Luigis Familienrezept — Mascarpone, Espresso und ein Hauch Kakao.", visual:"p-tiramisu" }
+  ];
+
+  const cart = {}; // id -> qty
+
+  const menuGrid = document.getElementById("menuGrid");
+  const cartCountEl = document.getElementById("cartCount");
+  const cartItemsEl = document.getElementById("cartItems");
+  const cartEmptyEl = document.getElementById("cartEmpty");
+  const cartTotalEl = document.getElementById("cartTotal");
+  const overlay = document.getElementById("overlay");
+  const cartDrawer = document.getElementById("cartDrawer");
+
+  function formatPrice(n){
+    return n.toFixed(2).replace(".", ",") + " €";
+  }
+
+  function renderMenu(){
+    menuGrid.innerHTML = products.map(p => `
+      <article class="card">
+        <div class="card-visual">
+          <div class="pizza-round ${p.visual}" aria-hidden="true"></div>
+        </div>
+        <div class="card-body">
+          <div class="card-top">
+            <h3>${p.name}</h3>
+            <span class="price">${formatPrice(p.price)}</span>
+          </div>
+          <p class="desc">${p.desc}</p>
+          <button class="add-btn" data-id="${p.id}">In den Warenkorb</button>
+        </div>
+      </article>
+    `).join("");
+  }
+
+  function addToCart(id, btn){
+    cart[id] = (cart[id] || 0) + 1;
+    renderCart();
+    if(btn){
+      btn.textContent = "Hinzugefügt ✓";
+      btn.classList.add("added");
+      setTimeout(() => {
+        btn.textContent = "In den Warenkorb";
+        btn.classList.remove("added");
+      }, 900);
+    }
+  }
+
+  function changeQty(id, delta){
+    if(!cart[id]) return;
+    cart[id] += delta;
+    if(cart[id] <= 0) delete cart[id];
+    renderCart();
+  }
+
+  function totalCount(){
+    return Object.values(cart).reduce((a,b) => a+b, 0);
+  }
+  function totalPrice(){
+    return Object.entries(cart).reduce((sum, [id, qty]) => {
+      const p = products.find(pr => pr.id === id);
+      return sum + (p ? p.price * qty : 0);
+    }, 0);
+  }
+
+  function renderCart(){
+    const count = totalCount();
+    cartCountEl.textContent = count;
+
+    const entries = Object.entries(cart);
+    if(entries.length === 0){
+      cartEmptyEl.style.display = "block";
+      cartItemsEl.querySelectorAll(".cart-item").forEach(el => el.remove());
+    } else {
+      cartEmptyEl.style.display = "none";
+      cartItemsEl.innerHTML = "";
+      entries.forEach(([id, qty]) => {
+        const p = products.find(pr => pr.id === id);
+        if(!p) return;
+        const row = document.createElement("div");
+        row.className = "cart-item";
+        row.innerHTML = `
+          <div class="mini-round ${p.visual}"></div>
+          <div class="cart-item-info">
+            <h5>${p.name}</h5>
+            <span class="unit-price">${formatPrice(p.price)} / Stk.</span>
+            <div class="qty-controls">
+              <button data-action="dec" data-id="${id}" aria-label="Menge verringern">−</button>
+              <span class="qty-num">${qty}</span>
+              <button data-action="inc" data-id="${id}" aria-label="Menge erhöhen">+</button>
+            </div>
+          </div>
+          <div class="line-total">${formatPrice(p.price * qty)}</div>
+        `;
+        cartItemsEl.appendChild(row);
+      });
+    }
+
+    cartTotalEl.textContent = formatPrice(totalPrice());
+  }
+
+  menuGrid.addEventListener("click", (e) => {
+    const btn = e.target.closest(".add-btn");
+    if(!btn) return;
+    addToCart(btn.dataset.id, btn);
+  });
+
+  cartItemsEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if(!btn) return;
+    const delta = btn.dataset.action === "inc" ? 1 : -1;
+    changeQty(btn.dataset.id, delta);
+  });
+
+  function openCart(){
+    overlay.classList.add("open");
+    cartDrawer.classList.add("open");
+  }
+  function closeCart(){
+    overlay.classList.remove("open");
+    cartDrawer.classList.remove("open");
+  }
+
+  document.getElementById("cartToggle").addEventListener("click", openCart);
+  document.getElementById("closeCart").addEventListener("click", closeCart);
+  overlay.addEventListener("click", closeCart);
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape") closeCart();
+  });
+
+  document.getElementById("checkoutBtn").addEventListener("click", () => {
+    if(totalCount() === 0) return;
+    alert("Danke für deine Demo-Bestellung! In einer echten Version würde hier der Bezahlvorgang starten. 🍕");
+  });
+
+  // mobile nav
+  const burger = document.getElementById("burgerBtn");
+  const navLinks = document.getElementById("navLinks");
+  burger.addEventListener("click", () => {
+    const isOpen = navLinks.classList.toggle("open");
+    burger.setAttribute("aria-expanded", String(isOpen));
+  });
+  navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+    navLinks.classList.remove("open");
+    burger.setAttribute("aria-expanded", "false");
+  }));
+
+  renderMenu();
+  renderCart();
+})();
+</script>
+
+</body>
+</html>
