@@ -701,6 +701,261 @@
     margin-top: 10px;
   }
 
+  /* ============ CHECKOUT MODAL (Demo) ============ */
+  .checkout-modal{
+    position: fixed;
+    inset:0;
+    z-index: 300;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding: 20px;
+    opacity:0;
+    pointer-events:none;
+    transition: opacity 0.3s ease;
+  }
+  .checkout-modal.open{ opacity:1; pointer-events:auto; }
+  .checkout-modal .backdrop{
+    position:absolute; inset:0;
+    background: rgba(20,14,10,0.6);
+    backdrop-filter: blur(3px);
+  }
+  .checkout-card{
+    position:relative;
+    background:#fff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: var(--radius-md);
+    box-shadow: 0 30px 70px rgba(0,0,0,0.35);
+    padding: 30px 28px 26px;
+    transform: translateY(16px) scale(0.97);
+    transition: transform 0.3s ease;
+  }
+  .checkout-modal.open .checkout-card{ transform: translateY(0) scale(1); }
+
+  .checkout-close{
+    position:absolute;
+    top: 16px; right: 16px;
+    background:none; border:none;
+    font-size: 1.2rem;
+    color: var(--ink-soft);
+    padding: 4px 8px;
+    border-radius: 8px;
+  }
+  .checkout-close:hover{ background: rgba(42,32,25,0.08); }
+
+  .checkout-demo-badge{
+    display:inline-block;
+    background: rgba(184,80,47,0.1);
+    color: var(--terracotta-dark);
+    font-size: 0.7rem;
+    font-weight:800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+  }
+
+  .checkout-card h3{ font-size: 1.25rem; margin-bottom: 4px; }
+  .checkout-card .checkout-sub{ color: var(--ink-soft); font-size: 0.88rem; margin-bottom: 20px; }
+
+  .checkout-summary{
+    background: var(--dough);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 22px;
+    max-height: 160px;
+    overflow-y:auto;
+  }
+  .checkout-line{
+    display:flex;
+    justify-content:space-between;
+    font-size: 0.85rem;
+    padding: 5px 0;
+    color: var(--ink-soft);
+  }
+  .checkout-line strong{ color: var(--ink); font-weight:600; }
+  .checkout-total-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    padding-top: 10px;
+    margin-top: 8px;
+    border-top: 1px solid rgba(42,32,25,0.15);
+  }
+  .checkout-total-line span:first-child{ font-weight:700; font-size:0.9rem; }
+  .checkout-total-line span:last-child{ font-family: var(--serif); font-weight:700; font-size: 1.3rem; color: var(--terracotta-dark); }
+
+  .paypal-btn{
+    width:100%;
+    background: #ffc439;
+    border: none;
+    border-radius: 999px;
+    padding: 14px;
+    font-weight: 800;
+    font-size: 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 8px;
+    color: #1a1a1a;
+    transition: filter 0.2s ease, transform 0.2s ease;
+  }
+  .paypal-btn:hover{ filter: brightness(0.96); transform: translateY(-1px); }
+  .paypal-btn .pp-logo{ font-weight: 900; font-style: italic; letter-spacing: -0.5px; }
+  .paypal-btn .pp-logo b{ color:#003087; }
+  .paypal-btn .pp-logo i{ color:#009cde; font-style:italic; }
+
+  .checkout-alt{
+    text-align:center;
+    font-size: 0.78rem;
+    color: var(--ink-soft);
+    margin-top: 12px;
+  }
+
+  /* processing state */
+  .checkout-processing{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding: 30px 0 10px;
+  }
+  .checkout-processing.active{ display:flex; }
+  .checkout-body.hidden{ display:none; }
+
+  .spinner{
+    width: 46px; height:46px;
+    border-radius:50%;
+    border: 4px solid rgba(0,48,135,0.15);
+    border-top-color: #003087;
+    animation: spin 0.9s linear infinite;
+    margin-bottom: 18px;
+  }
+  @keyframes spin{ to{ transform: rotate(360deg); } }
+  .checkout-processing p{ color: var(--ink-soft); font-size: 0.9rem; }
+
+  /* success state */
+  .checkout-success{
+    display:none;
+    flex-direction:column;
+    align-items:center;
+    text-align:center;
+    padding: 20px 0 6px;
+  }
+  .checkout-success.active{ display:flex; }
+  .success-check{
+    width: 62px; height:62px;
+    border-radius:50%;
+    background: var(--olive);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom: 18px;
+    animation: pop 0.4s ease;
+  }
+  @keyframes pop{
+    0%{ transform: scale(0.5); opacity:0; }
+    100%{ transform: scale(1); opacity:1; }
+  }
+  .checkout-success h3{ margin-bottom: 6px; }
+  .checkout-success p{ color: var(--ink-soft); font-size: 0.9rem; margin-bottom: 22px; }
+  .checkout-success .order-id{
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--ink);
+    background: var(--dough);
+    padding: 8px 16px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+  .done-btn{
+    background: var(--ink);
+    color:#fff;
+    border:none;
+    padding: 12px 26px;
+    border-radius: 999px;
+    font-weight:700;
+    font-size: 0.9rem;
+  }
+  .done-btn:hover{ background: var(--terracotta-dark); }
+
+  .payment-tabs{
+    display:flex;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .payment-tab{
+    flex:1;
+    background: var(--dough);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 12px 10px;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--ink-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 7px;
+    transition: all 0.2s ease;
+  }
+  .payment-tab.active{
+    background: #fff;
+    border-color: var(--ink);
+    color: var(--ink);
+    box-shadow: 0 4px 10px rgba(42,32,25,0.08);
+  }
+  .payment-panel{ display:none; }
+  .payment-panel.active{ display:block; }
+
+  .card-form{ display:flex; flex-direction:column; gap: 12px; margin-top: 4px; }
+  .card-form label{
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--ink-soft);
+    margin-bottom: 5px;
+    display:block;
+  }
+  .card-form input{
+    width:100%;
+    padding: 12px 14px;
+    border-radius: 10px;
+    border: 1.5px solid rgba(42,32,25,0.18);
+    font-family: var(--sans);
+    font-size: 0.92rem;
+    color: var(--ink);
+    background: #fff;
+    transition: border-color 0.2s ease;
+  }
+  .card-form input:focus{ border-color: var(--terracotta); outline:none; }
+  .card-row{ display:flex; gap: 12px; }
+  .card-row > div{ flex:1; }
+  .card-icons{
+    display:flex;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .card-icons span{
+    font-size: 0.68rem;
+    font-weight: 800;
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: var(--dough);
+    color: var(--ink-soft);
+  }
+  .pay-card-btn{
+    width:100%;
+    background: var(--ink);
+    color:#fff;
+    border:none;
+    padding: 14px;
+    border-radius: 999px;
+    font-weight:700;
+    font-size: 1rem;
+    margin-top: 6px;
+  }
+  .pay-card-btn:hover{ background: var(--terracotta-dark); }
+
   /* mobile nav */
   @media (max-width: 780px){
     .nav-links{
@@ -880,6 +1135,80 @@
   </div>
 </aside>
 
+<!-- CHECKOUT MODAL (Demo, keine echte Zahlung) -->
+<div class="checkout-modal" id="checkoutModal" role="dialog" aria-modal="true" aria-label="Zahlung">
+  <div class="backdrop" id="checkoutBackdrop"></div>
+  <div class="checkout-card">
+    <button class="checkout-close" id="checkoutClose" aria-label="Schließen">✕</button>
+
+    <div class="checkout-body" id="checkoutBody">
+      <span class="checkout-demo-badge">Demo — keine echte Zahlung</span>
+      <h3>Bestellung abschließen</h3>
+      <p class="checkout-sub">Überprüfe deine Auswahl und bezahle sicher mit PayPal.</p>
+
+      <div class="checkout-summary" id="checkoutSummary"></div>
+      <div class="checkout-total-line">
+        <span>Gesamtsumme</span>
+        <span id="checkoutTotal">0,00 €</span>
+      </div>
+
+      <div class="payment-tabs">
+        <button class="payment-tab active" id="tabPaypal" data-tab="paypal">🅿️ PayPal</button>
+        <button class="payment-tab" id="tabCard" data-tab="card">💳 Bankkarte</button>
+      </div>
+
+      <div class="payment-panel active" id="panelPaypal">
+        <button class="paypal-btn" id="payWithPaypal">
+          <span class="pp-logo"><b>Pay</b><i>Pal</i></span> Checkout
+        </button>
+      </div>
+
+      <div class="payment-panel" id="panelCard">
+        <form class="card-form" id="cardForm">
+          <div>
+            <label for="cardName">Name auf der Karte</label>
+            <input type="text" id="cardName" placeholder="Max Mustermann" autocomplete="cc-name" required>
+          </div>
+          <div>
+            <label for="cardNumber">
+              Kartennummer
+            </label>
+            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" inputmode="numeric" maxlength="19" autocomplete="cc-number" required>
+          </div>
+          <div class="card-row">
+            <div>
+              <label for="cardExpiry">Ablaufdatum</label>
+              <input type="text" id="cardExpiry" placeholder="MM/JJ" inputmode="numeric" maxlength="5" autocomplete="cc-exp" required>
+            </div>
+            <div>
+              <label for="cardCvc">CVC</label>
+              <input type="text" id="cardCvc" placeholder="123" inputmode="numeric" maxlength="4" autocomplete="cc-csc" required>
+            </div>
+          </div>
+          <button type="submit" class="pay-card-btn">Jetzt bezahlen</button>
+        </form>
+      </div>
+
+      <p class="checkout-alt">Simulierte Zahlung zu Demo-Zwecken · keine echten Daten werden übertragen</p>
+    </div>
+
+    <div class="checkout-processing" id="checkoutProcessing">
+      <div class="spinner"></div>
+      <p id="processingText">Zahlung wird verarbeitet …</p>
+    </div>
+
+    <div class="checkout-success" id="checkoutSuccess">
+      <div class="success-check">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L19 7"/></svg>
+      </div>
+      <h3>Zahlung erfolgreich!</h3>
+      <p>Danke für deine Demo-Bestellung bei Luigi's Pizzeria.</p>
+      <div class="order-id" id="orderId">Bestellnummer: —</div>
+      <button class="done-btn" id="checkoutDone">Fertig</button>
+    </div>
+  </div>
+</div>
+
 <script>
 (function(){
   "use strict";
@@ -1020,10 +1349,112 @@
     if(e.key === "Escape") closeCart();
   });
 
-  document.getElementById("checkoutBtn").addEventListener("click", () => {
-    if(totalCount() === 0) return;
-    alert("Danke für deine Demo-Bestellung! In einer echten Version würde hier der Bezahlvorgang starten. 🍕");
+  /* ============ CHECKOUT MODAL (Demo) ============ */
+  const checkoutModal = document.getElementById("checkoutModal");
+  const checkoutBackdrop = document.getElementById("checkoutBackdrop");
+  const checkoutBody = document.getElementById("checkoutBody");
+  const checkoutProcessing = document.getElementById("checkoutProcessing");
+  const checkoutSuccess = document.getElementById("checkoutSuccess");
+  const checkoutSummary = document.getElementById("checkoutSummary");
+  const checkoutTotal = document.getElementById("checkoutTotal");
+  const orderIdEl = document.getElementById("orderId");
+
+  function resetCheckoutModal(){
+    checkoutBody.classList.remove("hidden");
+    checkoutProcessing.classList.remove("active");
+    checkoutSuccess.classList.remove("active");
+    document.getElementById("cardForm").reset();
+    switchPaymentTab("paypal");
+  }
+
+  // Tabs zwischen PayPal und Kreditkarte
+  const tabPaypal = document.getElementById("tabPaypal");
+  const tabCard = document.getElementById("tabCard");
+  const panelPaypal = document.getElementById("panelPaypal");
+  const panelCard = document.getElementById("panelCard");
+
+  function switchPaymentTab(tab){
+    const isCard = tab === "card";
+    tabCard.classList.toggle("active", isCard);
+    tabPaypal.classList.toggle("active", !isCard);
+    panelCard.classList.toggle("active", isCard);
+    panelPaypal.classList.toggle("active", !isCard);
+  }
+  tabPaypal.addEventListener("click", () => switchPaymentTab("paypal"));
+  tabCard.addEventListener("click", () => switchPaymentTab("card"));
+
+  // Eingabe-Formatierung für Kartenfelder (rein optisch, keine echte Validierung)
+  const cardNumberInput = document.getElementById("cardNumber");
+  cardNumberInput.addEventListener("input", () => {
+    let v = cardNumberInput.value.replace(/\D/g, "").slice(0, 16);
+    cardNumberInput.value = v.replace(/(.{4})/g, "$1 ").trim();
   });
+  const cardExpiryInput = document.getElementById("cardExpiry");
+  cardExpiryInput.addEventListener("input", () => {
+    let v = cardExpiryInput.value.replace(/\D/g, "").slice(0, 4);
+    if(v.length >= 3) v = v.slice(0,2) + "/" + v.slice(2);
+    cardExpiryInput.value = v;
+  });
+  const cardCvcInput = document.getElementById("cardCvc");
+  cardCvcInput.addEventListener("input", () => {
+    cardCvcInput.value = cardCvcInput.value.replace(/\D/g, "").slice(0, 4);
+  });
+
+  document.getElementById("cardForm").addEventListener("submit", (e) => {
+    e.preventDefault();
+    runFakePayment("Zahlung wird mit deiner Bankkarte verarbeitet …");
+  });
+
+  function openCheckout(){
+    if(totalCount() === 0) return;
+
+    // Bestellübersicht befüllen
+    checkoutSummary.innerHTML = Object.entries(cart).map(([id, qty]) => {
+      const p = products.find(pr => pr.id === id);
+      if(!p) return "";
+      return `<div class="checkout-line"><span><strong>${qty}×</strong> ${p.name}</span><span>${formatPrice(p.price * qty)}</span></div>`;
+    }).join("");
+    checkoutTotal.textContent = formatPrice(totalPrice());
+
+    resetCheckoutModal();
+    closeCart();
+    checkoutModal.classList.add("open");
+  }
+
+  function closeCheckout(){
+    checkoutModal.classList.remove("open");
+  }
+
+  document.getElementById("checkoutBtn").addEventListener("click", openCheckout);
+  document.getElementById("checkoutClose").addEventListener("click", closeCheckout);
+  checkoutBackdrop.addEventListener("click", closeCheckout);
+  document.addEventListener("keydown", (e) => {
+    if(e.key === "Escape" && checkoutModal.classList.contains("open")) closeCheckout();
+  });
+
+  function runFakePayment(processingMessage){
+    checkoutBody.classList.add("hidden");
+    document.getElementById("processingText").textContent = processingMessage;
+    checkoutProcessing.classList.add("active");
+
+    setTimeout(() => {
+      checkoutProcessing.classList.remove("active");
+      checkoutSuccess.classList.add("active");
+
+      const orderNum = "LP-" + Math.floor(100000 + Math.random() * 900000);
+      orderIdEl.textContent = "Bestellnummer: " + orderNum;
+
+      // Warenkorb nach "erfolgreicher" Zahlung leeren
+      Object.keys(cart).forEach(id => delete cart[id]);
+      renderCart();
+    }, 1800);
+  }
+
+  document.getElementById("payWithPaypal").addEventListener("click", () => {
+    runFakePayment("Zahlung wird mit PayPal verarbeitet …");
+  });
+
+  document.getElementById("checkoutDone").addEventListener("click", closeCheckout);
 
   // mobile nav
   const burger = document.getElementById("burgerBtn");
